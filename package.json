@@ -1,0 +1,56 @@
+{
+	"name": "wakelni_api",
+	"version": "1.0.0",
+	"description": "wakelni_api",
+	"main": "server.js",
+	"scripts": {
+		"clean": "rm -rf build && mkdir build",
+		"build-babel": "babel -d ./build ./src -s",
+		"build": "npm run clean && npm run build-babel",
+		"start": "npm run build && node ./build/server.js",
+		"dev": "npm run clear:babel-cache && babel-watch --exclude locales/ ./src/server.js",
+		"clear:babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/benRomdhaneHamza/wakelni_api.git"
+	},
+	"author": "hamza ben romdhane",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/benRomdhaneHamza/wakelni_api/issues"
+	},
+	"homepage": "https://github.com/benRomdhaneHamza/wakelni_api#readme",
+	"dependencies": {
+		"@babel/core": "^7.2.2",
+		"bcrypt": "^3.0.4",
+		"body-parser": "^1.18.3",
+		"connect-mongo": "^2.0.3",
+		"cookie-parser": "^1.4.4",
+		"dotenv": "^6.2.0",
+		"express": "^4.16.4",
+		"http": "0.0.0",
+		"jsonwebtoken": "^8.5.0",
+		"keystone": "^4.0.0",
+		"mongoose": "^5.4.13",
+		"morgan": "^1.9.1",
+		"passport": "^0.4.0",
+		"passport-jwt": "^4.0.0"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.26.0",
+		"babel-plugin-inline-dotenv": "^1.1.2",
+		"babel-plugin-module-resolver": "^3.1.1",
+		"babel-plugin-transform-object-rest-spread": "^7.0.0-beta.3",
+		"babel-preset-env": "^1.6.1",
+		"babel-watch": "git+https://github.com/kmagiera/babel-watch.git",
+		"eslint": "^4.19.1",
+		"eslint-config-airbnb-base": "^12.1.0",
+		"eslint-import-resolver-babel-module": "^4.0.0",
+		"eslint-plugin-import": "^2.13.0",
+		"jest": "^22.4.3",
+		"jsdoc": "^3.5.5",
+		"nodemon": "^1.18.4",
+		"rimraf": "^2.6.2"
+	}
+}
