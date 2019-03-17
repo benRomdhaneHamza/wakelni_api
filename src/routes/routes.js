@@ -6,7 +6,7 @@ const router = express.Router();
 // router.use('/api/cities', cities);
 
 router.all('/api', (req, res) => {
-	res.send('Welcome to DFLATOR API');
+	res.send('Welcome to WAKELNI API');
 });
 
 export default router;
