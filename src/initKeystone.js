@@ -8,7 +8,7 @@ const keystoneFunc = (WAKELNI_DB_HOST) => {
 		brand: 'Wakelni',
 		'user model': 'Admin',
 		'auto update': true,
-		port: process.env.KEYSTONE_PORT,
+		port: process.env.PORT || 8080,
 		auth: true,
 		mongo: WAKELNI_DB_HOST
 	});

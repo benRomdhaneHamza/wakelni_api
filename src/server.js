@@ -7,9 +7,9 @@ const PORT = process.env.PORT || 8080;
 
 console.log('NODE_ENV', process.env.NODE_ENV);
 
-const server = createServer(app);
+// const server = createServer(app);
 // Listen to the server on PORT
-server.listen(PORT);
+// server.listen(PORT);
 // https.createServer({
 // 	fskey: fs.readFileSync('src/_cert/test_csr.pem', 'utf8'),
 //   cert: fs.readFileSync('src/_cert/test_server.crt', 'utf8')
