@@ -10,10 +10,6 @@ console.log('NODE_ENV', process.env.NODE_ENV);
 const server = createServer(app);
 // Listen to the server on PORT
 server.listen(PORT);
-// https.createServer({
-// 	fskey: fs.readFileSync('src/_cert/test_csr.pem', 'utf8'),
-//   cert: fs.readFileSync('src/_cert/test_server.crt', 'utf8')
-// }, app).listen(PORT);
 
 console.log(`Server listening on port ${PORT}`);
 

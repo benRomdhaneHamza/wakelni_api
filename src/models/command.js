@@ -1,41 +1,36 @@
 import { List, Field } from 'keystone';
 
-const schemaName = 'Meal';
+const schemaName = 'Command';
 const schemaData = {
+	user: {
+		type: Field.Types.Relationship, ref: 'User',
+		required: true,
+		initial: true
+	},
 	space: {
 		type: Field.Types.Relationship, ref: 'Space',
 		required: true,
 		initial: true
 	},
-	name: {
-		type: String,
-		required: true,
-		initial: true
+	mealsList: {
+		type: Field.Types.Relationship, ref: 'Meal',
+		many: true
 	},
-	description: {
-		type: String,
-		initial: true
-	},
+	state: { type: Field.Types.Select, options: 'PASSED, COOKING, LIVRED', default: 'PASSED' },
 	price: {
-		type: String,
-		required: true,
-		initial: true
-	},
-	available: {
-		type: Boolean,
-		default: true
+		type: Number,
 	}
 }
 
 const schemaKeystone = new List(schemaName, {
 	map: { name: 'name' },
 	searchFields: 'space name price',
-	plural: 'meals',
-	singular: 'meal'
+	plural: 'commands',
+	singular: 'command'
 });
 
 schemaKeystone.add(schemaData);
-schemaKeystone.defaultColumns = '_id, name, space, price';
+schemaKeystone.defaultColumns = 'name, space, price';
 
 schemaKeystone.track = {
 	createdAt: true,

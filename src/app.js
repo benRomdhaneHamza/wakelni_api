@@ -38,9 +38,6 @@ setTimeout(() => {
 		.then(() => {
 			// Init Keystone
 			keystoneInstance = keystone(WAKELNI_DB_HOST);
-			console.log('------------------- KEYSTONE PORT ----------------------');
-			console.log(process.env.KEYSTONE_PORT);
-			console.log('--------------------------------------------------------');
 		});
 }, 1000);
 
