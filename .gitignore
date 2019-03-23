@@ -1,2 +1,5 @@
 
 node_modules/
+src/controllers
+src/middelwares
+src/routes
