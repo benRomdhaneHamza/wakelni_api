@@ -21,6 +21,11 @@ const schemaData = {
 		required: true,
 		initial: true
 	},
+	image: {
+		type: Field.Types.CloudinaryImage,
+		folder: 'meals/',
+		autoCleanup : true
+	},
 	available: {
 		type: Boolean,
 		default: true
