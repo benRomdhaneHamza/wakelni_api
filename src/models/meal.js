@@ -21,6 +21,11 @@ const schemaData = {
 		required: true,
 		initial: true
 	},
+	image: {
+		type: Field.Types.CloudinaryImage,
+		folder: 'meals/',
+		autoCleanup : true
+	},
 	available: {
 		type: Boolean,
 		default: true
@@ -35,7 +40,7 @@ const schemaKeystone = new List(schemaName, {
 });
 
 schemaKeystone.add(schemaData);
-schemaKeystone.defaultColumns = 'name, space, price';
+schemaKeystone.defaultColumns = '_id, name, space, price';
 
 schemaKeystone.track = {
 	createdAt: true,

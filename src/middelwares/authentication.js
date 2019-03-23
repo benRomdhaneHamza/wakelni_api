@@ -1,6 +1,6 @@
 import Token from '@/utils/token';
 import UserController from "@/controllers/user";
-export default (required) => {
+export default () => {
 	return async(req, res, next) => {
 		let user = null;
 		const token = req.headers['x-access-token'];
