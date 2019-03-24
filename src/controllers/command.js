@@ -17,7 +17,7 @@ class CommandController {
 	static calculCommandPrice(_mealList) {
 		let total = 0;
 		_mealList.forEach(element => {
-			total += element.price;
+			total += Number(element.price);
 		});
 		return total;
 	};

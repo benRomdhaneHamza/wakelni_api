@@ -19,18 +19,22 @@ const schemaData = {
 	state: { type: Field.Types.Select, options: 'PASSED, COOKING, LIVRED', default: 'PASSED' },
 	price: {
 		type: Number,
+	},
+	createdAt: {
+		type: Field.Types.Datetime,
+		default: Date.now
 	}
 }
 
 const schemaKeystone = new List(schemaName, {
-	map: { name: 'name' },
-	searchFields: 'space name price',
+	map: { name: '_id' },
+	searchFields: 'user space price state',
 	plural: 'commands',
 	singular: 'command'
 });
 
 schemaKeystone.add(schemaData);
-schemaKeystone.defaultColumns = 'name, space, price';
+schemaKeystone.defaultColumns = 'user, space, price, state';
 
 schemaKeystone.track = {
 	createdAt: true,
