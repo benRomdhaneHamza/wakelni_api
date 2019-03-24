@@ -17,7 +17,7 @@ const schemaData = {
 		initial: true
 	},
 	price: {
-		type: String,
+		type: Number,
 		required: true,
 		initial: true
 	},

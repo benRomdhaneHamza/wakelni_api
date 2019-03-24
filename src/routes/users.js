@@ -35,6 +35,7 @@ router.post('/login', async(req, res) => {
 	const user = await UserController.login(req.body);
 	if (!user) return res.status(404).send({ wrongCredentials: true });
 	const loginToken = Token.getLoginToken(user);
+	if (!loginToken) return res.status(401).send({ loginError: true });
 	res.status(200).send({ token: loginToken, user });
 });
 
