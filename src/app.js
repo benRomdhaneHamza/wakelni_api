@@ -5,8 +5,6 @@ import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import keystone from '@/initKeystone';
 
-import routes from '@/routes/routes';
-
 const app = express();
 app.use(cookieParser());
 let keystoneInstance = null;
@@ -41,8 +39,6 @@ setTimeout(() => {
 		});
 }, 1000);
 
-// Routes
-app.use('/', routes);
 setTimeout(() => {
 	app.use((req, res) => {
 		res.status(404).json({
