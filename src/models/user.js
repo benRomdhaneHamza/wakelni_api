@@ -36,6 +36,10 @@ const schemaData = {
 	gender: Number,
 	zipCode: String,
 	address: String,
+	blocked: {
+		type: Boolean,
+		default: false
+	}
 }
 
 const schemaKeystone = new List(schemaName, {

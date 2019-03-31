@@ -1,4 +1,5 @@
 import Command from '@/models/command';
+import Space from '@/models/space';
 
 class CommandController {
 
@@ -21,6 +22,28 @@ class CommandController {
 		});
 		return total;
 	};
+
+	static getCommand(_id) {
+		return new Promise((resolve, reject) => {
+			Command.findById(_id).exec().then(resolve).catch(reject);
+		})
+	}
+
+	static updateCommand(_commandId, newMealsList) {
+		return new Promise(async (resolve, reject) => {
+			const command = await Command.findById(_commandId);
+			command.mealsList = newMealsList.map(_obj => _obj._id);
+			command.price = this.calculCommandPrice(newMealsList);
+			command.save().then(resolve).catch(reject);
+		})
+	}
+
+	static verifCommandValidity(_space, _mealListIds){
+		_mealListIds.forEach(_idMeal => {
+			if (String(_idMeal) != String(_space)) return false;
+		});
+		return true;
+	}
 }
 
 export default CommandController;

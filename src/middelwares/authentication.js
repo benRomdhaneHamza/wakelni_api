@@ -9,6 +9,7 @@ export default () => {
 		if (!user) return res.status(404).send({ authenticationError: true });
 		user = await UserController.findById(user._id);
 		if (!user) return res.status(404).send({ authenticationError: true });
+		if (user.blocked) return res.status(401).send({ blockedAcount: true });
 		res.locals.user = user;
 		return next();
 	}
