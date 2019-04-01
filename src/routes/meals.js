@@ -17,12 +17,21 @@ router.get('/', Authentication(), async(req, res) => {
 });
 
 // ******************************************************
+// GET MEAL BY ID
+// ******************************************************
+
+router.get('/:id', Authentication(), async(req, res) => {
+	const id = req.params.id;
+	const meal = await MealsController.getMealById(id);
+	res.status(200).send(meal);
+});
+
+// ******************************************************
 // ADD MEALS
 // ******************************************************
 
 // TODO BODY VALIDATION
 router.post('/', Authentication(), PictureController.picture_upload('/meals/').single('image'), async(req, res) => {
-	console.log('---------------', req.body);
 	const mealData = req.body;
 	if (req.file) mealData.image = MealsController.formatImage(req.file);
 	const addedMeal = await MealsController.addMeal(mealData);
