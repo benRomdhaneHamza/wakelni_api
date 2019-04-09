@@ -10,8 +10,8 @@ class SpaceController {
 	static verifySpaceByAdmin(_space, _user) {
 		return new Promise((resolve, reject) => {
 			Space.findById(_space).exec().then(space => {
-				if (space.admin != _user) return resolve(null);
-				return resolve(false);
+				if (String(space.admin) != String(_user)) return resolve(null);
+				return resolve(true);
 			});
 		});
 	}

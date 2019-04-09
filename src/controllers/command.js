@@ -56,8 +56,11 @@ class CommandController {
 	}
 
 	static getCommandsBySpace(_space, _state = undefined) {
+		const query = {}
+		if (_space) query.space = _space;
+		if (_state != 'undefined') query.state = _state;
 		return new Promise((resolve, reject) => {
-			Command.find({ space: _space, state: _state })
+			Command.find(query)
 			.populate({ path: 'mealsList' })
 			.then(resolve)
 			.catch(reject);

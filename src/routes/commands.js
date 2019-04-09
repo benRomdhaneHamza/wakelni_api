@@ -65,7 +65,7 @@ router.get('/user', Authentication(), async(req, res) => {
 // ******************************************************
 router.get('/space/:space', Authentication(), async(req, res) => {
 	const user = res.locals.user;
-	const space = req.params.sapce;
+	const space = req.params.space;
 	const state = req.query.state;
 	const valideSpace = await SpaceController.verifySpaceByAdmin(space, user._id)
 	if (!valideSpace) return res.status(404).send({ wrongSpace: true });
