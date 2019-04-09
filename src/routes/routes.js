@@ -4,6 +4,7 @@ import users from './users';
 import pictures from './pictures';
 import commands from './commands';
 import meals from './meals';
+import spaces from './space';
 
 const router = express.Router();
 
@@ -17,6 +18,8 @@ router.use('/api/users', users);
 router.use('/api/commands', commands);
 router.use('/api/pictures', pictures);
 router.use('/api/meals', meals);
+router.use('/api/spaces', spaces);
+
 // router.use('/api/cities', cities);
 
 router.all('/api', (req, res) => {
