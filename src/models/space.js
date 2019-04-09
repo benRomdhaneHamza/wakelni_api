@@ -21,6 +21,11 @@ const schemaData = {
 		required: true,
 		initial: true
 	},
+	logo: {
+		type: Field.Types.CloudinaryImage,
+		folder: 'spaces/',
+		autoCleanup : true
+	},
 	phone: String,
 }
 

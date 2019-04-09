@@ -16,7 +16,7 @@ const schemaData = {
 		type: Field.Types.Relationship, ref: 'Meal',
 		many: true
 	},
-	state: { type: Field.Types.Select, options: 'PASSED, COOKING, LIVRED', default: 'PASSED' },
+	state: { type: Field.Types.Select, options: 'SENT, REJECTED, ACCEPTED, ONWAY, PAYED', default: 'SENT' },
 	price: {
 		type: Number,
 	},
