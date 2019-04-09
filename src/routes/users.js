@@ -1,4 +1,5 @@
 import UserController from '@/controllers/user'
+import SpaceController from "@/controllers/space";
 import express from 'express';
 import Token from "@/utils/token";
 import Authentication from "@/middelwares/authentication";
@@ -39,7 +40,20 @@ router.post('/login', async(req, res) => {
 	res.status(200).send({ token: loginToken, user });
 });
 
+// ******************************************************
+// SPACE LOGIN
+// ******************************************************
 
+router.post('/space/login', async(req, res) => {
+	const user  = await UserController.loginSpace(req.body);
+	console.log('req ----', req.user);
+	if (!user) return res.status(404).send({ wrongCredentials: true });
+	const space = await SpaceController.findSpaceByAdmin(user._id);
+	if (!space) return res.status(404).send({ noSpaceFound: true });
+	const loginToken = Token.getLoginToken(user);
+	if (!loginToken) return res.status(401).send({ loginError: true });
+	res.status(200).send({ token: loginToken, user, space });
+})
 
 router.get('/test', Authentication(), async(req, res) => {
 	const user = res.locals.user;

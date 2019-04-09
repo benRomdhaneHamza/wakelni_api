@@ -1,7 +1,8 @@
-import CommandController from '@/controllers/command'
-import MealsController from '@/controllers/meal'
+import CommandController from '@/controllers/command';
+import MealsController from '@/controllers/meal';
+import SpaceController from '@/controllers/space';
 import express from 'express';
-import Authentication from "@/middelwares/authentication";
+import Authentication from "@/middelwares/authentication";;
 
 const router = express.Router();
 
@@ -56,6 +57,19 @@ router.put('/', Authentication(), async (req, res) => {
 router.get('/user', Authentication(), async(req, res) => {
 	const user = res.locals.user;
 	const commands = await CommandController.getUserCommands(user);
+	if (commands) return res.status(200).send(commands);
+	return res.status(404).send({ commandsNotFound: true });
+});
+// ******************************************************
+// GET BY SPACE
+// ******************************************************
+router.get('/space/:space', Authentication(), async(req, res) => {
+	const user = res.locals.user;
+	const space = req.params.sapce;
+	const state = req.query.state;
+	const valideSpace = await SpaceController.verifySpaceByAdmin(space, user._id)
+	if (!valideSpace) return res.status(404).send({ wrongSpace: true });
+	const commands = await CommandController.getCommandsBySpace(space, state);
 	if (commands) return res.status(200).send(commands);
 	return res.status(404).send({ commandsNotFound: true });
 });

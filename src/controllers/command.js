@@ -54,6 +54,15 @@ class CommandController {
 			.catch(reject);
 		});
 	}
+
+	static getCommandsBySpace(_space, _state = undefined) {
+		return new Promise((resolve, reject) => {
+			Command.find({ space: _space, state: _state })
+			.populate({ path: 'mealsList' })
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 }
 
 export default CommandController;
