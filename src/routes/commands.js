@@ -48,6 +48,16 @@ router.put('/', Authentication(), async (req, res) => {
 	const updatedCommand = await CommandController.updateCommand(commandId, mealsObjects);
 	if (!updatedCommand) return res.status(404).send({ errorCommand: true });
 	return res.status(200).send(updatedCommand);
-})
+});
+
+// ******************************************************
+// GET BY USER
+// ******************************************************
+router.get('/user', Authentication(), async(req, res) => {
+	const user = res.locals.user;
+	const commands = await CommandController.getUserCommands(user);
+	if (commands) return res.status(200).send(commands);
+	return res.status(404).send({ commandsNotFound: true });
+});
 
 export default router;

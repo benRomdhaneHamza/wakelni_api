@@ -44,6 +44,16 @@ class CommandController {
 		});
 		return true;
 	}
+
+	static getUserCommands(_user) {
+		return new Promise((resolve, reject) => {
+			Command.find({ user: _user })
+			.populate({ path: 'mealsList' })
+			.populate({ path: 'space' })
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 }
 
 export default CommandController;
