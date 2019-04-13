@@ -62,6 +62,21 @@ class CommandController {
 		return new Promise((resolve, reject) => {
 			Command.find(query)
 			.populate({ path: 'mealsList' })
+			.populate({ path: 'user' })
+			.sort('-createdAt')
+			.then((_res) => {
+				_res.forEach(element => {
+					element.user.password = undefined;
+				});
+				return resolve(_res);
+			})
+			.catch(reject);
+		});
+	}
+	
+	static changeState(_idCommand, _state) {
+		return new Promise((resolve, reject) => {
+			Command.findByIdAndUpdate(_idCommand, { state: _state }, { new: true })
 			.then(resolve)
 			.catch(reject);
 		});

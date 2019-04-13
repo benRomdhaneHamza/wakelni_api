@@ -46,7 +46,6 @@ router.post('/login', async(req, res) => {
 
 router.post('/space/login', async(req, res) => {
 	const user  = await UserController.loginSpace(req.body);
-	console.log('req ----', req.user);
 	if (!user) return res.status(404).send({ wrongCredentials: true });
 	const space = await SpaceController.findSpaceByAdmin(user._id);
 	if (!space) return res.status(404).send({ noSpaceFound: true });

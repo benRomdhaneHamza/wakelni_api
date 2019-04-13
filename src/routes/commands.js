@@ -29,27 +29,6 @@ router.post('/', Authentication(), async (req, res) => {
 	return res.status(200).send(command);
 });
 
-// ******************************************************
-// UPDATE COMMAND
-// ******************************************************
-router.put('/', Authentication(), async (req, res) => {
-	const user = res.locals.user;
-	const commandId = req.body.command;
-	const mealListIds = req.body.meals
-	const command = await CommandController.getCommand(commandId);
-	if (String(command.user) != String(user._id)) return res.status(401).send({ unothorized: true });
-	if (command.state != 'PASSED') return res.status(401).send({ unothorized: true });
-	// GET MEALS OBJECT ********************
-	let meals = []
-	mealListIds.forEach(element => {
-		meals.push(MealsController.getMealById(element));
-	});
-	const mealsObjects = await Promise.all(meals);
-	// ******************************************************
-	const updatedCommand = await CommandController.updateCommand(commandId, mealsObjects);
-	if (!updatedCommand) return res.status(404).send({ errorCommand: true });
-	return res.status(200).send(updatedCommand);
-});
 
 // ******************************************************
 // GET BY USER
@@ -73,5 +52,37 @@ router.get('/space/:space', Authentication(), async(req, res) => {
 	if (commands) return res.status(200).send(commands);
 	return res.status(404).send({ commandsNotFound: true });
 });
+
+// TODO : VERIFY BODY AND AUTHORIZATION
+router.put('/:_id/state', Authentication(), async(req, res) => {
+	console.log('changig state to popopo');
+	const state = req.query.state;
+	const commandId = req.params._id;
+	const updatedCommand = await CommandController.changeState(commandId, state);
+	if (updatedCommand) return res.status(200).send(updatedCommand);
+	return res.status(404).send({ stateError: true });
+});
+
+// ******************************************************
+// UPDATE COMMAND
+// ******************************************************
+// router.put('/', Authentication(), async (req, res) => {
+// 	const user = res.locals.user;
+// 	const commandId = req.body.command;
+// 	const mealListIds = req.body.meals
+// 	const command = await CommandController.getCommand(commandId);
+// 	if (String(command.user) != String(user._id)) return res.status(401).send({ unothorized: true });
+// 	if (command.state != 'PASSED') return res.status(401).send({ unothorized: true });
+// 	// GET MEALS OBJECT ********************
+// 	let meals = []
+// 	mealListIds.forEach(element => {
+// 		meals.push(MealsController.getMealById(element));
+// 	});
+// 	const mealsObjects = await Promise.all(meals);
+// 	// ******************************************************
+// 	const updatedCommand = await CommandController.updateCommand(commandId, mealsObjects);
+// 	if (!updatedCommand) return res.status(404).send({ errorCommand: true });
+// 	return res.status(200).send(updatedCommand);
+// });
 
 export default router;
