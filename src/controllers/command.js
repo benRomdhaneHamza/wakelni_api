@@ -44,6 +44,43 @@ class CommandController {
 		});
 		return true;
 	}
+
+	static getUserCommands(_user) {
+		return new Promise((resolve, reject) => {
+			Command.find({ user: _user })
+			.populate({ path: 'mealsList' })
+			.populate({ path: 'space' })
+			.then(resolve)
+			.catch(reject);
+		});
+	}
+
+	static getCommandsBySpace(_space, _state = undefined) {
+		const query = {}
+		if (_space) query.space = _space;
+		if (_state != 'undefined') query.state = _state;
+		return new Promise((resolve, reject) => {
+			Command.find(query)
+			.populate({ path: 'mealsList' })
+			.populate({ path: 'user' })
+			.sort('-createdAt')
+			.then((_res) => {
+				_res.forEach(element => {
+					element.user.password = undefined;
+				});
+				return resolve(_res);
+			})
+			.catch(reject);
+		});
+	}
+	
+	static changeState(_idCommand, _state) {
+		return new Promise((resolve, reject) => {
+			Command.findByIdAndUpdate(_idCommand, { state: _state }, { new: true })
+			.then(resolve)
+			.catch(reject);
+		});
+	}
 }
 
 export default CommandController;

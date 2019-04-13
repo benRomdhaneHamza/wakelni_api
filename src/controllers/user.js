@@ -48,6 +48,19 @@ class userController {
 			}).catch(reject);
 		});
 	}
+
+	static loginSpace(_credentials) {
+		return new Promise((resolve, reject) => {
+			User.findOne({ email: _credentials.email}).exec().then(_foundUser => {
+				if (!_foundUser) return resolve(null);
+				if (!_foundUser.hasSpace) return resolve(null);
+				const verifyPassword = bcrypt.compareSync(_credentials.password, _foundUser.password);
+				if (!verifyPassword) return resolve(null);
+				_foundUser.password = undefined;
+				return resolve(_foundUser);
+			}).catch(reject);
+		});
+	}
 }
 
 export default userController;

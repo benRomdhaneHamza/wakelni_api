@@ -8,11 +8,13 @@ import spaces from './space';
 
 const router = express.Router();
 
-router.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, x-access-token, Accept");
-  next();
-});
+// router.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "POST PUT GET OPTIONS");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, x-access-token, Accept");
+//   next();
+// });
+
+router.use(cors());
 
 router.use('/api/users', users);
 router.use('/api/commands', commands);
