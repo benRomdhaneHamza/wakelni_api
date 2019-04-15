@@ -15,6 +15,7 @@ router.post('/', Authentication(), async (req, res) => {
 	const user = res.locals.user._id;
 	const space = req.body.space;
 	const mealListIds = req.body.meals;
+	const description = req.body.description;
 	// GET MEALS OBJECT ********************
 	let meals = []
 	mealListIds.forEach(element => {
@@ -24,7 +25,7 @@ router.post('/', Authentication(), async (req, res) => {
 	// ******************************************************
 	// if (!CommandController.verifCommandValidity(space, mealsObjects.map(_obj => _obj._id))) 
 	// 	return res.status(401).send({ unauthorized: true });
-	const command = await CommandController.passCommand(user, space, mealsObjects);
+	const command = await CommandController.passCommand(user, space, mealsObjects, description);
 	if (!command) return res.status(404).send({ errorCommand: true });
 	return res.status(200).send(command);
 });
