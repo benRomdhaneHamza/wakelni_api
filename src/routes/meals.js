@@ -39,4 +39,11 @@ router.post('/', Authentication(), PictureController.picture_upload('/meals/').s
 	res.status(200).send(addedMeal);
 });
 
+
+router.get('/space/:spaceid', Authentication(), async(req, res) => {
+	const spaceId = req.params.spaceid;
+	const meals = await MealsController.getMeals({space : spaceId});
+	res.status(200).send(meals);
+});
+
 export default router;
