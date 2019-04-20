@@ -6,7 +6,7 @@
 	"scripts": {
 		"clean": "rm -rf build && mkdir build",
 		"build-babel": "babel -d ./build ./src -s",
-		"build": "npm run clean && npm run build-babel",
+		"build": " npm run build-babel",
 		"start": "npm run build && node ./build/server.js",
 		"dev": "npm run clear:babel-cache && babel-watch --exclude locales/ ./src/server.js",
 		"clear:babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*"
