@@ -5,7 +5,7 @@ import pictures from './pictures';
 import commands from './commands';
 import meals from './meals';
 import spaces from './space';
-import stores from './store';
+import notifiactions from './notifiactions';
 
 const router = express.Router();
 
@@ -22,7 +22,7 @@ router.use('/api/commands', commands);
 router.use('/api/pictures', pictures);
 router.use('/api/meals', meals);
 router.use('/api/spaces', spaces);
-router.use('/api/stores', stores);
+router.use('/api/notifiactions', notifiactions);
 
 // router.use('/api/cities', cities);
 

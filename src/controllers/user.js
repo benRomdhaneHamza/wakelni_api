@@ -49,6 +49,13 @@ class userController {
 		});
 	}
 
+	static setFcmToken(_token, _user) {
+		return new Promise((resolve, reject) => {
+			_user.fcmToken = _token;
+			_user.save().then(resolve).catch(reject);
+		});
+	}
+
 	static loginSpace(_credentials) {
 		return new Promise((resolve, reject) => {
 			User.findOne({ email: _credentials.email}).exec().then(_foundUser => {

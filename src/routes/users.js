@@ -41,6 +41,18 @@ router.post('/login', async(req, res) => {
 });
 
 // ******************************************************
+// USER SET FCM TOKEN
+// ******************************************************
+
+router.post('/fcmToken', Authentication(), async(req, res) => {
+	const user = res.locals.user;
+	const fcmToken = req.body.token;
+	const updatedUser = await UserController.setFcmToken(fcmToken, user);
+	if (updatedUser) return res.status(200).send({ fcmTokenSuccess: true });
+	return res.status(401).send({ fcmTokenError: true });
+});
+
+// ******************************************************
 // SPACE LOGIN
 // ******************************************************
 
