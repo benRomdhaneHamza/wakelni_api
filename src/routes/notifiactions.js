@@ -17,24 +17,10 @@ router.post('/send', async (req, res) => {
 	const sender = req.body.sender;
 	const notifData = req.body.notification;
 	const notifType = req.body.type;
-	const user = await User.findById(receiver).select('fcmToken');
+	
+	const notifSent = await NotificationController.sendNotifiaction(receiver, sender, notifData, notifType);
 
-	const notifBody = NotificationController.newCommandNotif(notifType, notifData);
-
-	let message = {
-		to: user.fcmToken,
-		notification: notifBody.notification,
-		data: notifBody.data
-	}
-
-	fcm.send(message, function (err, response) {
-		if (err) {
-			console.log("Something has gone wrong!");
-		} else {
-			console.log("Successfully sent with response: ", response);
-		}
-	});
-	res.send('notification sent');
+	res.send(notifSent);
 });
 
 export default router;

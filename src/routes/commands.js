@@ -1,6 +1,7 @@
 import CommandController from '@/controllers/command';
 import MealsController from '@/controllers/meal';
 import SpaceController from '@/controllers/space';
+import NotificationController from "@/controllers/notifications";
 import express from 'express';
 import Authentication from "@/middelwares/authentication";;
 
@@ -11,9 +12,10 @@ const router = express.Router();
 // ******************************************************
 
 // TODO BODY VALIDATION
+// TODO VERIFY COMMAND FROM ONE SPACE
 router.post('/', Authentication(), async (req, res) => {
 	const user = res.locals.user._id;
-	const space = req.body.space;
+	const spaceId = req.body.space;
 	const mealListIds = req.body.meals;
 	const description = req.body.description;
 	// GET MEALS OBJECT ********************
@@ -23,10 +25,13 @@ router.post('/', Authentication(), async (req, res) => {
 	});
 	const mealsObjects = await Promise.all(meals);
 	// ******************************************************
-	// if (!CommandController.verifCommandValidity(space, mealsObjects.map(_obj => _obj._id))) 
-	// 	return res.status(401).send({ unauthorized: true });
-	const command = await CommandController.passCommand(user, space, mealsObjects, description);
+	const command = await CommandController.passCommand(user, spaceId, mealsObjects, description);
 	if (!command) return res.status(404).send({ errorCommand: true });
+	const space = await SpaceController.getSpaceById(spaceId);
+	let notification = {
+		command: command._id
+	}
+	NotificationController.sendNotifiaction(space.admin, user, notification, 'NC');
 	return res.status(200).send(command);
 });
 
@@ -54,14 +59,26 @@ router.get('/space/:space', Authentication(), async(req, res) => {
 	return res.status(404).send({ commandsNotFound: true });
 });
 
+// ******************************************************
+// CHANGE COMMAND STATE
+// ******************************************************
 // TODO : VERIFY BODY AND AUTHORIZATION
 router.put('/:_id/state', Authentication(), async(req, res) => {
-	console.log('changig state to popopo');
 	const state = req.query.state;
 	const commandId = req.params._id;
 	const updatedCommand = await CommandController.changeState(commandId, state);
-	if (updatedCommand) return res.status(200).send(updatedCommand);
-	return res.status(404).send({ stateError: true });
+	if (!updatedCommand) return res.status(404).send({ stateError: true });
+	const space = await SpaceController.getSpaceById(updatedCommand.space);
+	let notification = {
+		command: updatedCommand._id,
+		space: space.name
+	}
+	let notifType = null;
+	if (state == 'ACCEPTED') notifType = 'AC';
+	else if (state == 'REJECTED') notifType = 'RC';
+	NotificationController.sendNotifiaction(updatedCommand.user, null, notification, notifType);
+	return res.status(200).send(updatedCommand);
+	
 });
 
 // ******************************************************
