@@ -10,7 +10,8 @@ class CommandController {
 				space: _space,
 				description: _description,
 				mealsList: _mealList.map(_obj => _obj._id),
-				price: this.calculCommandPrice(_mealList)
+				price: this.calculCommandPrice(_mealList),
+				code: this.getCommandUniqueCode()
 			});
 			newCommand.save().then(resolve).catch(reject);
 		});
@@ -81,6 +82,12 @@ class CommandController {
 			.then(resolve)
 			.catch(reject);
 		});
+	}
+
+	static getCommandUniqueCode() {
+		const date = new Date();
+		let code  = date.valueOf().toString();
+		return code.substr(code.length-4, 4);
 	}
 }
 
