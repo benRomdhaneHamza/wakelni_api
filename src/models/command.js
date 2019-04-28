@@ -27,6 +27,9 @@ const schemaData = {
 	createdAt: {
 		type: Field.Types.Datetime,
 		default: Date.now
+	},
+	code: {
+		type: String
 	}
 }
 

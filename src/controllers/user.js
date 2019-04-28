@@ -8,7 +8,6 @@ class userController {
 			User.findById(_userId)
 			.exec().then(_user => {
 				if (!_user) return resolve(null);
-				_user.password = undefined;
 				return resolve(_user);
 			}).catch(reject);
 		});
@@ -46,6 +45,14 @@ class userController {
 				_foundUser.password = undefined;
 				return resolve(_foundUser);
 			}).catch(reject);
+		});
+	}
+
+	static setFcmToken(_token, _user) {
+		return new Promise(async (resolve, reject) => {
+			const user = await User.findById(_user);
+			user.fcmToken = _token;
+			user.save().then(resolve).catch(reject);
 		});
 	}
 
