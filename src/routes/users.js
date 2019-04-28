@@ -3,6 +3,8 @@ import SpaceController from "@/controllers/space";
 import express from 'express';
 import Token from "@/utils/token";
 import Authentication from "@/middelwares/authentication";
+import User from '@/models/user';
+
 
 const router = express.Router();
 
@@ -21,12 +23,29 @@ router.post('/signup', async (req, res) => {
 	const userExist = await UserController.checkIfUserExists(newUser.email);
 	if (userExist) return res.status(409).send({ emailUsed: true });
 	const addedUser = await UserController.addUser(newUser);
-	if (!addedUser) if (userExist) return res.status(403).send({ errorSignup: true });
+	if (!addedUser) return res.status(403).send({ errorSignup: true });
 	// SEND CONFIRMATION MAIL
 	const loginToken = Token.getLoginToken(addedUser);
 	res.status(201).send({ token: loginToken, user: addedUser });
 });
 
+// ******************************************************
+// USER UPDATE
+// ******************************************************
+
+// TODO BODY VALIDATION
+router.put('/:id', async(req, res) => {
+	// let user = await UserController.findById(req.params.id)
+	let user = await User.findById(req.params.id)
+	if (!user) res.status(404).send({ userNotFound: true });
+	user.firstname = req.body.firstname
+	user.lastname = req.body.lastname
+	user.email = req.body.email
+	user.address = req.body.address
+	
+	let userUpdated = await UserController.updateUser(user)
+	res.status(200).send(userUpdated)
+});
 // ******************************************************
 // USER LOGIN
 // ******************************************************
