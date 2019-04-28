@@ -16,6 +16,15 @@ const schemaData = {
 		type: String,
 		initial: true
 	},
+	specialty: {
+		type: String
+	},
+	lat: {
+		type: Number
+	},
+	lng: {
+		type: Number
+	},
 	city: {
 		type: String,
 		required: true,

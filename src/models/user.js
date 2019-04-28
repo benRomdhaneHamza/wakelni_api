@@ -39,6 +39,9 @@ const schemaData = {
 	blocked: {
 		type: Boolean,
 		default: false
+	},
+	fcmToken: {
+		type: String
 	}
 }
 
