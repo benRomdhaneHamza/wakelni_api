@@ -64,7 +64,7 @@ class NotificationController {
 					body: 'Votre commande a '+_body.space+ 'a été accepté'
 				},
 				data: {
-					commandId: _body.command,
+					command: _body.command,
 					space: _body.space
 				}
 			}
