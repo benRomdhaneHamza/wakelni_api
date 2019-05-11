@@ -3,12 +3,13 @@ import Space from '@/models/space';
 
 class CommandController {
 
-	static passCommand(_user, _space, _mealList, _description) {
+	static passCommand(_user, _space, _mealList, _description,_address) {
 		return new Promise((resolve, reject) => {
 			const newCommand = new Command({
 				user: _user,
 				space: _space,
 				description: _description,
+				address:_address,
 				mealsList: _mealList.map(_obj => _obj._id),
 				price: this.calculCommandPrice(_mealList),
 				code: this.getCommandUniqueCode()
