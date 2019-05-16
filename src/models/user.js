@@ -17,6 +17,10 @@ const schemaData = {
 		type: Boolean,
 		default: false
 	},
+	deliveryMan: {
+		type: Boolean,
+		default: false
+	},
 	email: {
 		type: Field.Types.Email,
 		required: true,
