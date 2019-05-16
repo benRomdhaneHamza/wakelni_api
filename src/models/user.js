@@ -17,6 +17,10 @@ const schemaData = {
 		type: Boolean,
 		default: false
 	},
+	deliveryMan: {
+		type: Boolean,
+		default: false
+	},
 	email: {
 		type: Field.Types.Email,
 		required: true,
@@ -35,7 +39,11 @@ const schemaData = {
 	phone: String,
 	gender: Number,
 	zipCode: String,
-	address: String,
+	address: {
+		type: Field.Types.Relationship, ref: 'Address',
+		many: true,
+		multiple: true
+	},
 	blocked: {
 		type: Boolean,
 		default: false
@@ -50,7 +58,9 @@ const schemaKeystone = new List(schemaName, {
 	searchFields: 'email firstname lastname',
 	plural: 'users',
 	singular: 'user'
-});
+}, {
+		usePushEach: true
+	});
 
 schemaKeystone.add(schemaData);
 schemaKeystone.defaultColumns = 'firstname, lastname, email';

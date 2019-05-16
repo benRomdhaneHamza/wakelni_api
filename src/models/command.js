@@ -24,6 +24,11 @@ const schemaData = {
 	price: {
 		type: Number,
 	},
+	address:{
+		type: Field.Types.Relationship, ref: 'Address',
+		required: true,
+		initial: true
+	},
 	createdAt: {
 		type: Field.Types.Datetime,
 		default: Date.now
