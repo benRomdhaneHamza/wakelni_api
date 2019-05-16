@@ -18,6 +18,7 @@ router.post('/', Authentication(), async (req, res) => {
 	const spaceId = req.body.space;
 	const mealListIds = req.body.meals;
 	const description = req.body.description;
+	const address = req.body.address;
 	// GET MEALS OBJECT ********************
 	let meals = []
 	mealListIds.forEach(element => {
@@ -25,7 +26,7 @@ router.post('/', Authentication(), async (req, res) => {
 	});
 	const mealsObjects = await Promise.all(meals);
 	// ******************************************************
-	const command = await CommandController.passCommand(user, spaceId, mealsObjects, description);
+	const command = await CommandController.passCommand(user, spaceId, mealsObjects, description,address);
 	if (!command) return res.status(404).send({ errorCommand: true });
 	const space = await SpaceController.getSpaceById(spaceId);
 	let notification = {
@@ -69,8 +70,9 @@ router.put('/:_id/state', Authentication(), async(req, res) => {
 	const updatedCommand = await CommandController.changeState(commandId, state);
 	if (!updatedCommand) return res.status(404).send({ stateError: true });
 	const space = await SpaceController.getSpaceById(updatedCommand.space);
+	const command = await CommandController.getCommand(updatedCommand._id);
 	let notification = {
-		command: updatedCommand._id,
+		command: command,
 		space: space.name
 	}
 	let notifType = null;
