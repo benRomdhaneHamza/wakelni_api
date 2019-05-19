@@ -50,7 +50,8 @@ class userController {
 
 	static login(_credentials) {
 		return new Promise((resolve, reject) => {
-			User.findOne({ email: _credentials.email}).exec().then(_foundUser => {
+			User.findOne({ email: _credentials.email}).populate('address')
+			.then(_foundUser => {
 				if (!_foundUser) return resolve(null);
 				const verifyPassword = bcrypt.compareSync(_credentials.password, _foundUser.password);
 				if (!verifyPassword) return resolve(null);
