@@ -20,7 +20,6 @@ const schemaData = {
     },
     city: {
         type: String,
-        required: true,
         initial: true
     },
     street: {
