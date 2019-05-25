@@ -34,17 +34,15 @@ router.post('/signup', async (req, res) => {
 // ******************************************************
 
 // TODO BODY VALIDATION
-router.put('/:id', async(req, res) => {
-	// let user = await UserController.findById(req.params.id)
-	let user = await User.findById(req.params.id)
-	if (!user) res.status(404).send({ userNotFound: true });
-	user.firstname = req.body.firstname
-	user.lastname = req.body.lastname
-	user.email = req.body.email
-	user.address = req.body.address
-	
-	let userUpdated = await UserController.updateUser(user)
-	res.status(200).send(userUpdated)
+router.put('/', Authentication(), async(req, res) => {
+	const user = res.locals.user;
+	const newData = req.body;
+	const updatedUser = await UserController.updateUser(user, newData);
+	if (!updatedUser) return res.status(402).send({ updateError: true });
+	const finalUser = await User.findById(user._id).populate('address');
+	finalUser.password = undefined;
+	console.log('finalUser', finalUser);
+	return res.status(201).send(finalUser);
 });
 // ******************************************************
 // USER LOGIN
@@ -84,6 +82,40 @@ router.post('/space/login', async (req, res) => {
 	const loginToken = Token.getLoginToken(user);
 	if (!loginToken) return res.status(401).send({ loginError: true });
 	res.status(200).send({ token: loginToken, user, space });
+})
+
+// ******************************************************
+// User update email
+// ******************************************************
+
+router.put('/email', Authentication(), async (req, res) => {
+	const user = res.locals.user;
+	const password = req.body.password;
+	const newEmail = req.body.newEmail;
+	const verifyEmail = await User.findOne({ email: newEmail });
+	if (verifyEmail) return res.status(401).send({ usedMail: true }); 
+	const validPassword = await UserController.verifyUserPassword(user._id, password);
+	if (!validPassword) return res.status(404).send({ wrongCredentials: true });
+	const updatedMail = await UserController.updateEmail(user, newEmail);
+	if (!updatedMail) return res.status(401).send({ updateError: true });
+	updatedMail.password = undefined;
+	return res.status(200).send(updatedMail);
+});
+
+// ******************************************************
+// User update password
+// ******************************************************
+
+router.put('/password', Authentication(), async (req, res) => {
+	const user = res.locals.user;
+	const oldPassword = req.body.oldPassword;
+	const newPassword = req.body.newPassword;
+	const validPassword = await UserController.verifyUserPassword(user._id, oldPassword);
+	if (!validPassword) return res.status(404).send({ wrongCredentials: true });
+	const updatedPassword = await UserController.updatePassword(user, newPassword);
+	if (!updatedPassword) return res.status(401).send({ updateError: true });
+	updatedPassword.password = undefined;
+	return res.status(200).send(updatedPassword);
 })
 
 router.get('/test', async (req, res) => {
