@@ -19,6 +19,9 @@ const schemaData = {
 	specialty: {
 		type: String
 	},
+	address: {
+		type: Field.Types.Relationship, ref: 'Address'
+	},
 	lat: {
 		type: Number
 	},
@@ -33,7 +36,7 @@ const schemaData = {
 	logo: {
 		type: Field.Types.CloudinaryImage,
 		folder: 'spaces/',
-		autoCleanup : true
+		autoCleanup: true
 	},
 	phone: String,
 }
